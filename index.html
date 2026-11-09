@@ -3,53 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Важен Анонс</title>
+    <meta name="color-scheme" content="light dark">
+    <title>Компютърни Системи ЕООД — Съобщение</title>
+    <meta name="description" content="Съобщение от Компютърни Системи ЕООД: временно не приемаме нови клиенти и проекти. Благодарим ви за доверието и подкрепата.">
+    <meta name="theme-color" content="#efefef">
+
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                theme = localStorage.getItem('theme');
+            } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <style>
+        :root {
+            --bg: #efefef;
+            --card: #ffffff;
+            --card-border: rgba(23, 22, 20, 0.08);
+            --shadow: 0 1px 2px rgba(23, 22, 20, 0.06), 0 24px 60px rgba(23, 22, 20, 0.10);
+            --ink: #171614;
+            --ink-soft: #45423d;
+            --muted: #6b6660;
+            --line: rgba(23, 22, 20, 0.14);
+            --accent: #9d4526;
+            --serif: Georgia, "Times New Roman", "Noto Serif", serif;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a09;
+            --card: #161513;
+            --card-border: rgba(243, 238, 231, 0.09);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px rgba(0, 0, 0, 0.55);
+            --ink: #f3eee7;
+            --ink-soft: #c9c3ba;
+            --muted: #8e8880;
+            --line: rgba(243, 238, 231, 0.16);
+            --accent: #e08a63;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme]) {
+                --bg: #0a0a09;
+                --card: #161513;
+                --card-border: rgba(243, 238, 231, 0.09);
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px rgba(0, 0, 0, 0.55);
+                --ink: #f3eee7;
+                --ink-soft: #c9c3ba;
+                --muted: #8e8880;
+                --line: rgba(243, 238, 231, 0.16);
+                --accent: #e08a63;
+            }
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            padding: clamp(0.75rem, 2vh, 1.25rem);
+            background: var(--bg);
+            color: var(--ink);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.62;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .page {
+            width: min(100%, 720px);
+            padding: clamp(1.1rem, 2.8vw, 2rem);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        header.site {
+            display: flex;
             align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--line);
         }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            text-align: center;
+
+        .brand {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.015em;
+            color: var(--ink);
         }
+
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            flex: none;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--ink-soft);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle svg {
+            width: 17px;
+            height: 17px;
+            display: block;
+        }
+
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-sun {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-moon {
+            display: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme]) .theme-toggle .icon-sun {
+                display: block;
+            }
+
+            :root:not([data-theme]) .theme-toggle .icon-moon {
+                display: none;
+            }
+        }
+
+        main {
+            flex: 1;
+            padding-top: clamp(0.8rem, 1.8vh, 1.1rem);
+            max-width: 66ch;
+        }
+
         h1 {
-            color: #333;
+            margin: 0 0 1rem;
+            max-width: 26ch;
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2rem, 5.2vw, 3.1rem);
+            line-height: 1.06;
+            letter-spacing: -0.02em;
+            text-wrap: balance;
+            color: var(--ink);
         }
-        p {
-            color: #666;
-            line-height: 1.6;
+
+        main p {
+            margin: 0 0 0.85rem;
+            max-width: 62ch;
+            color: var(--ink-soft);
+            font-size: 1.08rem;
+            line-height: 1.68;
+            text-wrap: pretty;
         }
-        .footer {
-            margin-top: 20px;
+
+        .lead {
+            margin-bottom: 0.9rem;
+            color: var(--ink);
+            font-size: 1.12rem;
+            font-weight: 500;
+        }
+
+        .form-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35em;
+            padding: 0.16em 0.75em;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--bg);
             font-size: 0.9em;
-            color: #aaa;
+            font-weight: 500;
+            line-height: 1.5;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 0.18s ease, opacity 0.18s ease;
+        }
+
+        .form-link:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .form-link .arrow {
+            display: inline-block;
+            transition: transform 0.18s ease;
+        }
+
+        .form-link:hover .arrow {
+            transform: translate(2px, -2px);
+        }
+
+        .form-link:focus-visible,
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .signoff {
+            margin-top: 0.8rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .signoff p {
+            margin: 0 0 0.2rem;
+        }
+
+        .signoff .company {
+            font-family: var(--serif);
+            font-size: 1.18rem;
+            color: var(--ink);
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 0.6rem;
+        }
+
+        .footer-inner {
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--line);
+            font-size: 0.72rem;
+            letter-spacing: 0.01em;
+            color: var(--muted);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        }
+
+        .d1 { animation-delay: 0.07s; }
+        .d2 { animation-delay: 0.14s; }
+        .d3 { animation-delay: 0.21s; }
+        .d4 { animation-delay: 0.28s; }
+
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .page {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .brand {
+                font-size: 0.8rem;
+            }
+
+            main p {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            * {
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media print {
+            .theme-toggle {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+                color: #000;
+            }
+
+            .reveal {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Съобщение</h1>
-        <p>Уважаеми клиенти и партньори,</p>
-        <p>С огромна благодарност за вашата постоянна подкрепа и доверие към нас, искаме да ви информираме, че временно не можем да приемаме нови клиенти или проекти. Това решение ни позволява да подобрим нашите процеси и да се подготвим за бъдещ растеж.</p>
-        <p>Въпреки, че в момента не приемаме нови бизнес предложения, оставаме ангажирани с нашата мисия.</p>
-        <p>Ако имате въпроси или се нуждаете от помощ, може да се свържете се с нас чрез <a href="https://docs.google.com/forms/d/e/1FAIpQLSckMDLhn2izTJYVSGInvSlfspAsLIwQZZeLBXbSnTdv_6Zhag/viewform?usp=sf_link">ТОЗИ</a> формуляр.</p>
-        <p>Благодарим ви!</p>
-        <p>С уважение,</p>
-        <p>Компютърни Системи ЕООД</p>
-        <div class="footer">
-            &copy; 2024 г. Всички права запазени.
-        </div>
+    <div class="page">
+        <header class="site">
+            <div class="brand">Компютърни Системи ЕООД</div>
+            <button class="theme-toggle" type="button" aria-label="Превключи на тъмна тема" title="Превключи на тъмна тема">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.5 14.6A8.5 8.5 0 1 1 9.4 3.5a7 7 0 0 0 11.1 11.1Z"/>
+                </svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>
+                </svg>
+            </button>
+        </header>
+
+        <main>
+            <h1 class="reveal">Временно не приемаме нови клиенти и проекти.</h1>
+
+            <p class="lead reveal d1">Уважаеми клиенти и партньори,</p>
+
+            <p class="reveal d2">С огромна благодарност за вашата постоянна подкрепа и доверие към нас, искаме да ви информираме, че временно не можем да приемаме нови клиенти или проекти. Това решение ни позволява да подобрим нашите процеси и да се подготвим за бъдещ растеж.</p>
+
+            <p class="reveal d3">Въпреки че в момента не приемаме нови бизнес предложения, оставаме ангажирани с нашата мисия.</p>
+
+            <p class="reveal d3">За въпроси или нужда от помощ използвайте <a class="form-link" href="https://docs.google.com/forms/d/e/1FAIpQLSckMDLhn2izTJYVSGInvSlfspAsLIwQZZeLBXbSnTdv_6Zhag/viewform?usp=sf_link">този формуляр <span class="arrow" aria-hidden="true">↗</span></a>.</p>
+
+            <div class="signoff reveal d4">
+                <p>Благодарим ви!</p>
+                <p>С уважение, <span class="company">Компютърни Системи ЕООД</span></p>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-inner">
+                <span>&copy; 2024 г. Всички права запазени.</span>
+            </div>
+        </footer>
     </div>
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var toggle = document.querySelector('.theme-toggle');
+            var meta = document.querySelector('meta[name="theme-color"]');
+
+            function isDark() {
+                return root.getAttribute('data-theme') === 'dark';
+            }
+
+            function sync() {
+                var dark = isDark();
+                var label = dark ? 'Превключи на светла тема' : 'Превключи на тъмна тема';
+                toggle.setAttribute('aria-label', label);
+                toggle.setAttribute('title', label);
+                meta.setAttribute('content', dark ? '#0a0a09' : '#efefef');
+            }
+
+            toggle.addEventListener('click', function () {
+                var next = isDark() ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                try {
+                    localStorage.setItem('theme', next);
+                } catch (e) {}
+                sync();
+            });
+
+            sync();
+        })();
+    </script>
 </body>
 </html>
